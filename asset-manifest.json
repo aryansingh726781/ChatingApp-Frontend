@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ChatingApp-Frontend/static/css/main.357bbc00.css",
+    "main.js": "/ChatingApp-Frontend/static/js/main.dc9166e9.js",
+    "static/js/453.70e8ed44.chunk.js": "/ChatingApp-Frontend/static/js/453.70e8ed44.chunk.js",
+    "index.html": "/ChatingApp-Frontend/index.html",
+    "main.357bbc00.css.map": "/ChatingApp-Frontend/static/css/main.357bbc00.css.map",
+    "main.dc9166e9.js.map": "/ChatingApp-Frontend/static/js/main.dc9166e9.js.map",
+    "453.70e8ed44.chunk.js.map": "/ChatingApp-Frontend/static/js/453.70e8ed44.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.357bbc00.css",
+    "static/js/main.dc9166e9.js"
+  ]
+}
