@@ -1,6 +1,6 @@
 
 
-// // // //new
+// // //new
 
 
 
@@ -15,7 +15,17 @@
 //   const [messages, setMessages] = useState([]);
 //   const [socket, setSocket] = useState(null);
 //   const [profile, setProfile] = useState({ username: '', id: '' });
+//   const [loading, setLoading] = useState(true);
+//     const [dateTime, setDateTime] = useState('');
 //   const navigate = useNavigate();
+
+
+
+
+
+
+
+    
 
 //   useEffect(() => {
 
@@ -85,6 +95,10 @@
 
 //   };
 
+
+
+
+  
 //   return (
 //     <div className="flex flex-col items-center h-screen p-4">
 //       <h2 className="text-2xl font-bold mb-4">Chat</h2>
@@ -137,7 +151,6 @@
 
 
 
-// src/pages/Chat.js
 import '../App.css'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -157,102 +170,7 @@ const Chat = ({ token }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-  //   const fetchProfile = async () => {
-  //     try {
-  //       const res = await axios.get('http://localhost:5000/profile', {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       setProfile(res.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error('Error fetching profile:', error);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   const fetchMessages = async () => {
-  //     try {
-  //       const res = await axios.get('http://localhost:5000/messages', {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       setMessages(res.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error('Error fetching messages:', error);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchProfile();
-  //   fetchMessages();
-
-  //   const newSocket = io('http://localhost:5000/', {
-  //     auth: { token },
-  //   });
-
-  //   newSocket.on('message', (data) => {
-  //     setMessages((prevMessages) => [...prevMessages, data]);
-  //   });
-
-
-  //   newSocket.on('message-seen', ({ messageId, userId }) => {
-  //     setMessages((prevMessages) =>
-  //       prevMessages.map((msg) =>
-  //         msg._id === messageId
-  //           ? { ...msg, seenBy: [...msg.seenBy, userId] }
-  //           : msg
-  //       )
-  //     );
-  //   });
-
-  //   setSocket(newSocket);
-
-  //   return () => newSocket.close();
-  // }, [token]);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const now = new Date();
-  //     setDateTime(now.toLocaleString());
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
-
-  // const sendMessage = () => {
-  //   if (socket) {
-  //     socket.emit('message', message);
-  //     setMessage('');
-  //   }
-  // };
-
-
-  // const markMessageAsSeen = (messageId) => {
-  //   if (socket) {
-  //     socket.emit('message-seen', messageId);
-  //   }
-  // };
-
-  // const deleteMessage = async (id) => {
-  //   try {
-  //     await axios.delete(`http://localhost:5000/messages/${id}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     setMessages((prevMessages) => prevMessages.filter((msg) => msg._id !== id));
-  //   } catch (error) {
-  //     console.error('Error deleting message:', error);
-  //   }
-  // };
-
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  
 
 
   if ('Notification' in window && navigator.serviceWorker) {
@@ -302,10 +220,7 @@ const Chat = ({ token }) => {
     showNotification(data); // Show mobile notification when a new message is received
   });
 
-  newSocket.on('message', (data) => {
-    setMessages((prevMessages) => [...prevMessages, data]);
-  });
-
+ 
   newSocket.on('message-seen', ({ messageId, userId }) => {
     setMessages((prevMessages) =>
       prevMessages.map((msg) =>
@@ -344,7 +259,6 @@ const showNotification = (msg) => {
     });
   }
 };
-
 const sendMessage = async () => {
   if (message.trim()) {
     setLoading(true); // Show loader
@@ -358,7 +272,6 @@ const sendMessage = async () => {
     }
   }
 };
-
    const markMessageAsSeen = (messageId) => {
     if (socket) {
       socket.emit('message-seen', messageId);
@@ -380,20 +293,6 @@ const markAsSeen = (messageId) => {
   socket.emit('message-seen', messageId);
 };
 
-
-// const showNotification = (msg) => {
-//   toast.info(`${msg.username}: ${msg.message}`, {
-//     position: 'top-right',
-//     autoClose: 5000,
-//     hideProgressBar: false,
-//     closeOnClick: true,
-//     pauseOnHover: true,
-//     draggable: true,
-//     progress: undefined,
-//     theme: 'dark',
-//   });
-// };
-
 if (loading) {
   return <div className="flex justify-center items-center h-screen"><FaSpinner className="spinner" /></div>;
 }
@@ -409,11 +308,11 @@ if (loading) {
         <p><strong>Current Date and Time:</strong> {dateTime}</p>
       </div>
       <div className="flex flex-col border p-4 mb-4 w-full max-w-md h-80 overflow-y-auto">
-        {messages.map((msg) => (
-          <div key={msg._id} className="flex justify-between items-center mb-2"
+        {messages.map((msg,index) => (
+          <div key={`${message.id}-${index}`}  className="flex justify-between items-center mb-2"
          
          
-          onClick={() => markMessageAsSeen(msg._id)}>
+          onClick={() => markMessageAsSeen(msg._id)} >
             <div>
               <strong>{msg.username}: </strong>
               {msg.message}
@@ -455,4 +354,6 @@ if (loading) {
 };
 
 export default Chat;
+
+
 
