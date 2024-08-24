@@ -23,13 +23,14 @@
 
 // new
 
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Chat from './pages/Chat';
 import Logout from './pages/Logout';
-
+import './App.css';
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token') || '');
 
