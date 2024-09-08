@@ -30,15 +30,15 @@
   
 
 
-//   if ('Notification' in window && navigator.serviceWorker) {
-//     Notification.requestPermission().then((result) => {
-//       if (result === 'granted') {
-//         console.log('Notification permission granted.');
-//       } else {
-//         console.log('Notification permission denied.');
-//       }
-//     });
-//   }
+  // if ('Notification' in window && navigator.serviceWorker) {
+  //   Notification.requestPermission().then((result) => {
+  //     if (result === 'granted') {
+  //       console.log('Notification permission granted.');
+  //     } else {
+  //       console.log('Notification permission denied.');
+  //     }
+  //   });
+  // }
 
 
 //     const fetchProfile = async () => {
@@ -78,10 +78,10 @@
 //     auth: { token },
 //   });
 
-//   newSocket.on('message', (data) => {
-//     setMessages((prevMessages) => [...prevMessages, data]);
-//     showNotification(data); // Show mobile notification when a new message is received
-//   });
+  // newSocket.on('message', (data) => {
+  //   setMessages((prevMessages) => [...prevMessages, data]);
+  //   showNotification(data); // Show mobile notification when a new message is received
+  // });
 
  
 //   newSocket.on('message-seen', ({ messageId, userId }) => {
@@ -235,6 +235,20 @@ const Chat = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
+
+
+    if ('Notification' in window && navigator.serviceWorker) {
+      Notification.requestPermission().then((result) => {
+        if (result === 'granted') {
+          console.log('Notification permission granted.');
+        } else {
+          console.log('Notification permission denied.');
+        }
+      });
+    }
+  
+
+
     const savedToken = localStorage.getItem('token'); // Retrieve token from localStorage
 
     if (savedToken) {
@@ -273,7 +287,12 @@ const Chat = () => {
 
       newSocket.on('message', (data) => {
         setMessages((prevMessages) => [...prevMessages, data]);
+        showNotification(data); // Show mobile notification when a new message is received
       });
+
+      // newSocket.on('message', (data) => {
+      //   setMessages((prevMessages) => [...prevMessages, data]);
+      // });
 
       setSocket(newSocket);
 
@@ -291,6 +310,22 @@ const Chat = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+
+
+
+  const showNotification = (msg) => {
+    if (Notification.permission === 'granted') {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification(msg.username, {
+          body: msg.message,
+          icon: "../public/chat.png",
+          tag: 'new-message',
+          renotify: true,
+        });
+      });
+    }
+  };
 
   const sendMessage = async () => {
     if (message.trim() && socket) {
